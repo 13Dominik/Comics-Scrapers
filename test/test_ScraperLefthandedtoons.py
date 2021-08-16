@@ -5,7 +5,7 @@ import json
 import unittest
 import os
 from unittest import mock
-from unittest.mock import patch, mock_open, PropertyMock
+from unittest.mock import patch, mock_open, PropertyMock, Mock
 
 import requests
 
@@ -28,19 +28,20 @@ class TestScraperLefthandedtoons(unittest.TestCase):
         with self.assertRaises(TimeoutError):
             ScraperLefthandedtoons().load_page()
 
-    @mock.patch('Scrapers.requests.models.Response')
-    def test_get_site_date_find_last_image(self, mock_requests):
-        with open('data\\fake_Lefthandedtoons.html', 'r', encoding='utf-8') as html_file:
-            mock_requests.get.text = html_file.read()
-            lht = ScraperLefthandedtoons()
+    # with open('fake_Lefthandedtoons.html', 'r', encoding='utf-8') as html_file:
 
-            self.assertIsNotNone(lht.load_page())
-            assert isinstance(lht.load_page(), bs4.BeautifulSoup)
+    def test_get_site_date_find_last_image(self):
+        with open('data\\fake_html_Lefthandedtoons.txt', 'r', encoding='utf-8') as html_file:
+            with patch("Scrapers.requests.get", return_value=Mock(text=html_file.read())):
+                lht = ScraperLefthandedtoons()
 
-            self.assertEqual(datetime.datetime(2018, 6, 27), ScraperLefthandedtoons().get_last_image_date())
+                self.assertIsNotNone(lht.load_page())
+                assert isinstance(lht.load_page(), bs4.BeautifulSoup)
 
-            self.assertEqual(['http://www.lefthandedtoons.com/toons/drew_ariotheory.gif', 'drew_ariotheory.gif'],
-                             lht.find_last_image())
+                self.assertEqual(datetime.datetime(2018, 6, 27), lht.get_last_image_date())
+
+                self.assertEqual(['http://www.lefthandedtoons.com/toons/drew_ariotheory.gif', 'drew_ariotheory.gif'],
+                                 lht.find_last_image())
 
     def test_last_date_method(self):
         fake_json_file = {
