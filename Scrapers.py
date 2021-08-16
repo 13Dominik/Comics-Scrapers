@@ -153,7 +153,7 @@ class ScraperLunarbaboon(Scraper):
         url_to_down = "http://www.lunarbaboon.com/" + str(txt_from_site[0])[
                                                       str(txt_from_site).find('/storage'):str(txt_from_site).find(
                                                           'SQUARESPACE_CACHEVERSION=') + 37]
-        filename = str(url_to_down)[35:52]
+        filename = str(url_to_down)[35:48] + ".jpg"
 
         return [url_to_down, filename]
 
