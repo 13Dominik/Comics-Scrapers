@@ -23,7 +23,7 @@ fake = mock_open(read_data=json.dumps(fake_json_file))
 class TestScraperLunarbaboon(unittest.TestCase):
 
     def test_get_site_date_find_last_image(self):
-        with open('data\\fake_html_Lunarbaboon.txt', 'r', encoding='utf-8') as html_file:
+        with open('data\\fake_Lunarbaboon.html', 'r', encoding='utf-8') as html_file:
             with patch("Scrapers.requests.get", return_value=Mock(text=html_file.read())):
                 lb = ScraperLunarbaboon()
 

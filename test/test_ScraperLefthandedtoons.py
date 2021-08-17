@@ -29,9 +29,9 @@ class TestScraperLefthandedtoons(unittest.TestCase):
             ScraperLefthandedtoons().load_page()
 
     # with open('fake_Lefthandedtoons.html', 'r', encoding='utf-8') as html_file:
-
+    # mocking requests.get by a obejct that have a attr 'text' to call it by .text
     def test_get_site_date_find_last_image(self):
-        with open('data\\fake_html_Lefthandedtoons.txt', 'r', encoding='utf-8') as html_file:
+        with open('data\\fake_Lefthandedtoons.html', 'r', encoding='utf-8') as html_file:
             with patch("Scrapers.requests.get", return_value=Mock(text=html_file.read())):
                 lht = ScraperLefthandedtoons()
 
